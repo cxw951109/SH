@@ -672,15 +672,17 @@ class Ui_Dialog(QDialog):
             self.label11.setText('坐标未取完整！')
 
     def check(self):
-        filename = 'a:change_product.json'
+        # filename = 'a:change_product.json'
         data={"step":4}
-        try:
-            with open(filename, 'w') as file_obj:
-                json.dump(data, file_obj)
-            file_obj.close()
-            self.close()
-        except:
-            pass
+        # try:
+        #     with open(filename, 'w') as file_obj:
+        #         json.dump(data, file_obj)
+        #     file_obj.close()
+        #     self.close()
+        # except:
+        #     pass
+        mmap_file.seek(0)
+        mmap_file.write(json.dumps(data).encode())
 
     def closeEvent(self, event):
         self.frame1.hide()
@@ -697,15 +699,17 @@ class Ui_Dialog(QDialog):
         self.pushButton12.setEnabled(True)
         time.sleep(0.8)
         self.label23.setText('')
-        filename = 'a:change_product.json'
+        # filename = 'a:change_product.json'
         data={"step":0}
-        try:
-            with open(filename, 'w') as file_obj:
-                json.dump(data, file_obj)
-            file_obj.close()
-            self.close()
-        except:
-            pass
+        # try:
+        #     with open(filename, 'w') as file_obj:
+        #         json.dump(data, file_obj)
+        #     file_obj.close()
+        #     self.close()
+        # except:
+        #     pass
+        mmap_file.seek(0)
+        mmap_file.write(json.dumps(data).encode())
 
 
 class Ui_Form(QWidget):
