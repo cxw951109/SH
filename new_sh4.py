@@ -12,6 +12,7 @@ import os
 import sys
 import cv2
 import time
+import mmap
 import threading
 from config.sql import *
 from PyQt5.QtGui import *
@@ -47,29 +48,33 @@ def get_img(lists,IMAGE):
 
 
 def create_data(one, two, three):
-    filename = 'a:change_product.json'
+    # filename = 'a:change_product.json'
     data = {"last_four": one, "total": two, "step_count": three,"step":2}
-    try:
-        with open(filename, 'w') as file_obj:
-            json.dump(data, file_obj)
-        file_obj.close()
-        return True
-    except Exception as e:
-        print(e)
-        return False
+    # try:
+    #     with open(filename, 'w') as file_obj:
+    #         json.dump(data, file_obj)
+    #     file_obj.close()
+    #     return True
+    # except Exception as e:
+    #     print(e)
+    #     return False
+    mmap_file.seek(0)
+    mmap_file.write(json.dumps(data).encode())
 
 
 def create_data1(list1, list2):
-    filename = 'a:change_product.json'
+    # filename = 'a:change_product.json'
     data = {"x0": float(list1[0][0])/500, "y0": float(list1[0][1])/300, "x1": float(list1[1][0])/500,"y1":float(list1[1][1])/300,"x2": float(list2[0][0])/500, "y2": float(list2[0][1])/300, "x3": float(list2[1][0])/500,"y3":float(list2[1][1])/300,"step":3}
-    try:
-        with open(filename, 'w') as file_obj:
-            json.dump(data, file_obj)
-        file_obj.close()
-        return True
-    except Exception as e:
-        print(e)
-        return False
+    # try:
+    #     with open(filename, 'w') as file_obj:
+    #         json.dump(data, file_obj)
+    #     file_obj.close()
+    #     return True
+    # except Exception as e:
+    #     print(e)
+    #     return False
+    mmap_file.seek(0)
+    mmap_file.write(json.dumps(data).encode())
 
 
 class Worker(QThread, QObject):
@@ -1095,6 +1100,7 @@ def start_server():
 server_thread = threading.Thread(target=start_server)
 server_thread.setDaemon(True)
 server_thread.start()
+mmap_file = mmap.mmap(-1, 1024,tagname='change_product')
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
