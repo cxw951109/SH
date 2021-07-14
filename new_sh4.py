@@ -710,6 +710,7 @@ class Ui_Dialog(QDialog):
         #     pass
         mmap_file.seek(0)
         mmap_file.write(json.dumps(data).encode())
+        self.close()
 
 
 class Ui_Form(QWidget):
