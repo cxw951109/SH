@@ -273,6 +273,12 @@ class Item2(BaseModel):
     bad: int
 
 
+class Item3(BaseModel):
+    re:list
+    good:int
+    bad:int
+
+
 class Ui_Dialog(QDialog):
     t10 =Worker1()
     t11 = Worker2()
@@ -1051,11 +1057,15 @@ async def get_imgs(item: Item1):
 
 
 @app.post('/result/')
-async def get_result(item: Item2):
+async def get_result(item: Item3):
     global datas
-    datas.append('''<div style="font:27px;width:400px;">{}</div>'''.format(
-        str(item.line1) + '<br />' + str(item.line2) + '<br />' + str(item.line3) + '<br />' + str(
-            item.line4) + '<br />' + '<br />'))
+    re =item.re
+    new_text=''
+    re = sorted(re, key=lambda re: re["idx"], reverse=False)
+    for i in re:
+        text =str(i["idx"])+":"+str(i["chr"])+'<br />'
+        new_text =new_text+text
+    datas.append('''<div style="font:27px;width:400px;">{}</div>'''.format(new_text))
     session = MySession()
     t = time.strftime("%Y-%m-%d", time.localtime())
     res = session.query(Dailydata).first()
